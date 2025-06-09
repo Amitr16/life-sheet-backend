@@ -26,7 +26,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_key_123')
 
 # Enable CORS for all routes
-CORS(app, supports_credentials=True, origins=['http://localhost:5173'])
+CORS(app, supports_credentials=True, origins=['http://localhost:5173', 'https://life-sheet-app.onrender.com'])
 
 # Session cookie settings for development
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
