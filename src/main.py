@@ -15,13 +15,14 @@ import pymysql
 app = Flask(__name__)
 
 # Configure SQLAlchemy
-if os.environ.get('DATABASE_URL'):
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+if os.environ.get('RENDER'):
+    # On Render.com, use /tmp
+    db_path = '/tmp/life_sheet.db'
 else:
+    # Local development
     db_path = os.path.abspath(os.path.join(os.getcwd(), 'instance', 'life_sheet.db'))
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
-    print('DB Path:', db_path)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_key_123')
 
