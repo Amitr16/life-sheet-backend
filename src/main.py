@@ -58,6 +58,7 @@ with app.app_context():
     inspector = db.inspect(engine)
     
     try:
+        # Check financial_profile table
         columns = inspector.get_columns('financial_profile')
         column_names = [column['name'] for column in columns]
         
@@ -76,6 +77,17 @@ with app.app_context():
                     db.session.execute(f"ALTER TABLE financial_profile ADD COLUMN {column_name} {column_type}")
                 else:
                     db.session.execute(f"ALTER TABLE financial_profile ADD COLUMN {column_name} {column_type} NULL")
+        
+        # Check financial_loan table
+        columns = inspector.get_columns('financial_loan')
+        column_names = [column['name'] for column in columns]
+        
+        if 'emi' not in column_names:
+            print("Adding missing column: emi to financial_loan table")
+            if app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite'):
+                db.session.execute("ALTER TABLE financial_loan ADD COLUMN emi FLOAT")
+            else:
+                db.session.execute("ALTER TABLE financial_loan ADD COLUMN emi FLOAT NULL")
         
         db.session.commit()
         print("Database schema updated successfully")

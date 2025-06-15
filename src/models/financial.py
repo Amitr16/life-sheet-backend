@@ -262,6 +262,7 @@ class FinancialLoan(db.Model):
     # Loan details
     name = db.Column(db.String(255), nullable=False)  # Loan name/description
     amount = db.Column(db.Float, nullable=False)      # Loan amount
+    emi = db.Column(db.Float, nullable=True)         # Monthly EMI amount
     order_index = db.Column(db.Integer, nullable=False)  # Order of creation
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -281,6 +282,7 @@ class FinancialLoan(db.Model):
             'profile_id': self.profile_id,
             'name': self.name,
             'amount': self.amount,
+            'emi': self.emi,
             'order_index': self.order_index,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None

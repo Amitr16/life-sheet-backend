@@ -486,6 +486,7 @@ def create_financial_loan():
             profile_id=data['profile_id'],
             name=data['name'],
             amount=data['amount'],
+            emi=data.get('emi'),  # EMI is optional
             order_index=max_order + 1
         )
         db.session.add(loan)
@@ -514,6 +515,8 @@ def update_financial_loan(loan_id):
             loan.name = data['name']
         if 'amount' in data:
             loan.amount = data['amount']
+        if 'emi' in data:
+            loan.emi = data['emi']
         loan.updated_at = datetime.utcnow()
         db.session.commit()
         return jsonify({'message': 'Financial loan updated successfully', 'loan': loan.to_dict()}), 200
